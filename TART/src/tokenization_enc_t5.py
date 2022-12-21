@@ -1,3 +1,5 @@
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+
 from typing import Any, Dict, List, Optional
 
 from transformers import T5Tokenizer
