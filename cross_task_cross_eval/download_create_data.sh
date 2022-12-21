@@ -1,3 +1,5 @@
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+
 mkdir data
 cd data
 wget https://github.com/allenai/gooaq/raw/main/data/gooaq.jsonl
