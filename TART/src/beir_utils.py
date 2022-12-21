@@ -14,7 +14,6 @@ from beir.retrieval.evaluation import EvaluateRetrieval
 from beir.retrieval.search.dense import DenseRetrievalExactSearch
 
 from beir.reranking.models import CrossEncoder
-from beir.reranking.models import CrossEncoder
 from src.rerank import Rerank
 from tqdm import tqdm
 import glob

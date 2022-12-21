@@ -4,7 +4,8 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 import torch.nn.functional as F
 from tqdm import tqdm
-from src.enc_t5 import EncT5ForSequenceClassification, EncT5Tokenizer
+from src.modeling_enc_t5 import EncT5ForSequenceClassification
+from src.tokenization_enc_t5 import EncT5Tokenizer
 
 logger = logging.getLogger(__name__)
 
