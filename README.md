@@ -23,6 +23,11 @@ We introduce a new retrieval task formulation, **retrieval with instructions**, 
 5. [Citations and Contact](#citation-and-contact)
 
 
+*Updates*
+**2023.12**: Released initial codes. 
+**2023.2**: Released scripts to create BERRI with links to the data created by the third party. 
+**2023.2**: Released training instructions.  
+
 ## Getting started
 Pre-trained models can be loaded through the HuggingFace transformers library:
 
@@ -230,10 +235,56 @@ python eval_cross_task.py \
 ```
 
 ## Training 
-We will release the detailed instructions for training with BERRI soon. 
+### TART-full 
+To train TART-full model, run the script below. We use 8 GBU for training. We found that training 3B cross-encoder too long can make the model overfit to the data, so we only train the models for one epoch and pick up the best model based on the development sore. 
+
+```
+python finetuning_tart_full.py --task_name ce \
+    --train_data PATH_TO_TRAIN_DATA \
+    --eval_data PATH_TO_DEV_DATA \ 
+    --model_name_or_path [bigscience/T0_3B, google/flan-t5-xl] \
+    --output_dir PATH_TO_YOUR_OUTPUT_DIR \
+    --do_train --do_eval \
+    --overwrite_output_dir --evaluation_strategy steps \
+    --eval_steps 2000 --save_steps 2000 \
+    --metric_for_best_model accuracy \
+    --per_gpu_train_batch_size 1 --num_train_epochs 1 \
+    --gradient_accumulation_steps 8 --max_seq_length 512 \
+    --load_best_model_at_end
+```
+
+### TART-dual
+To train TART-dual model, run the script below. We use 64 GBU for training. 
+
+```
+cd TART
+python finetuning.py \
+    --model_path facebook/contriever-msmarco \
+    --train_data PATH_TO_TRAIN_DATA \
+    --eval_data PATH_TO_DEV_DATA \
+    --chunk_length 256 --negative_ctxs 5 --warmup_steps 1000 --total_steps 50000 \
+    --lr 0.00001 --scheduler linear --optim adamw --per_gpu_batch_size 16 --temperature 0.05 \
+    --per_gpu_eval_batch_size 16 --output_dir PATH_TO_OUTPUT_DIR \
+    --save_freq 5000 --eval_freq 5000 --negative_hard_ratio 0.1 
+```
+
 
 ## Dataset: BERRI
-Due to legal reasons, Meta cannot host reproduced Wikidata. We will release scripts to reproduce BERRI by downloading checkpoints, converting the inputs and running models to collect positive and negative datasets. 
+
+[`berri`](berri) directory includes the scripts and instruction data to construct the BERRI dataset. 
+
+### Instructions
+All of the annotated instructions are in [berri_instructions.tsv](berri/berri_instructions.tsv)
+
+### Preprocessing script and processed data 
+BERRI data constructions consists of (i) convert existing datasets into retrieval tasks, adding initial positive and randomly sampled negative passages, (ii) retrieve top paragraphs using an efficient bi-encoder (i.e., Contriever), and then (iii) denoise the top documents. 
+
+[`berri/README.md`](berri/README.md) describes the detailed instructions. 
+
+You can download the processed source data (from the process (i)) as well as the final training data for TART-dual and full, processed by a third party here:
+- [source data (22 GB)](https://drive.google.com/file/d/1hzlN4cEFOZRkdVeCMq62NUxvMNTopB1o/view?usp=share_link) 
+- [TART-full training data (1 GB)](https://drive.google.com/file/d/1oijzAb2gWKT54OgeE7_KB9VcHvA7UxpQ/view?usp=share_link)
+- [TART-dual training data (14 GB)](https://drive.google.com/file/d/1lMmD5lTxYWYf0z0ua0-GaGKz2qs2mG1r/view?usp=share_link)
 
 
 ## Citation and Contact 
