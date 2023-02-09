@@ -1,7 +1,10 @@
+# Copyright (c) Facebook, Inc. and its affiliates.
+# All rights reserved.
+#
+# This source code is licensed under the license found in the
+# LICENSE file in the root directory of this source tree.
 from typing import Any, Dict, List, Optional
-
 from transformers import T5Tokenizer
-
 
 class EncT5Tokenizer(T5Tokenizer):
     def __init__(
