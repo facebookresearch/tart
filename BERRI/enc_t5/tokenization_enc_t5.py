@@ -6,6 +6,7 @@
 from typing import Any, Dict, List, Optional
 from transformers import T5Tokenizer
 
+
 class EncT5Tokenizer(T5Tokenizer):
     def __init__(
         self,
@@ -37,17 +38,8 @@ class EncT5Tokenizer(T5Tokenizer):
         self, token_ids_0: List[int], token_ids_1: Optional[List[int]] = None, already_has_special_tokens: bool = False
     ) -> List[int]:
         """
-        Retrieve sequence ids from a token list that has no special tokens added. This method is called when adding
-        special tokens using the tokenizer `prepare_for_model` method.
-        Args:
-            token_ids_0 (`List[int]`):
-                List of IDs.
-            token_ids_1 (`List[int]`, *optional*):
-                Optional second list of IDs for sequence pairs.
-            already_has_special_tokens (`bool`, *optional*, defaults to `False`):
-                Whether or not the token list is already formatted with special tokens for the model.
-        Returns:
-            `List[int]`: A list of integers in the range [0, 1]: 1 for a special token, 0 for a sequence token.
+        Retrieve sequence ids from a token list that has no special tokens added. 
+        This will be called when adding special tokens using the tokenizer `prepare_for_model` method.
         """
         if already_has_special_tokens:
             return super().get_special_tokens_mask(
@@ -62,17 +54,6 @@ class EncT5Tokenizer(T5Tokenizer):
     def create_token_type_ids_from_sequences(
         self, token_ids_0: List[int], token_ids_1: Optional[List[int]] = None
     ) -> List[int]:
-        """
-        Create a mask from the two sequences passed to be used in a sequence-pair classification task. T5 does not make
-        use of token type ids, therefore a list of zeros is returned.
-        Args:
-            token_ids_0 (`List[int]`):
-                List of IDs.
-            token_ids_1 (`List[int]`, *optional*):
-                Optional second list of IDs for sequence pairs.
-        Returns:
-            `List[int]`: List of zeros.
-        """
         bos = [self.bos_token_id]
         eos = [self.eos_token_id]
 
@@ -88,13 +69,6 @@ class EncT5Tokenizer(T5Tokenizer):
         adding special tokens. A sequence has the following format:
         - single sequence: `<s> X </s>`
         - pair of sequences: `<s> A </s> B </s>`
-        Args:
-            token_ids_0 (`List[int]`):
-                List of IDs to which the special tokens will be added.
-            token_ids_1 (`List[int]`, *optional*):
-                Optional second list of IDs for sequence pairs.
-        Returns:
-            `List[int]`: List of [input IDs](../glossary#input-ids) with the appropriate special tokens.
         """
         if token_ids_1 is None:
             return [self.bos_token_id] + token_ids_0 + [self.eos_token_id]

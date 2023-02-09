@@ -41,7 +41,8 @@ class EncT5ForSequenceClassification(T5PreTrainedModel):
 
     def parallelize(self, device_map=None):
         self.device_map = (
-            get_device_map(len(self.encoder.block), range(torch.cuda.device_count()))
+            get_device_map(len(self.encoder.block),
+                           range(torch.cuda.device_count()))
             if device_map is None
             else device_map
         )
@@ -99,7 +100,8 @@ class EncT5ForSequenceClassification(T5PreTrainedModel):
         )
 
         hidden_states = outputs[0]
-        pooled_output = hidden_states[:, 0, :]  # Take bos token (equiv. to <s>)
+        # Take bos token (equiv. to <s>)
+        pooled_output = hidden_states[:, 0, :]
 
         pooled_output = self.dropout(pooled_output)
         logits = self.classifier(pooled_output)
@@ -122,7 +124,8 @@ class EncT5ForSequenceClassification(T5PreTrainedModel):
                     loss = loss_fct(logits, labels)
             elif self.config.problem_type == "single_label_classification":
                 loss_fct = CrossEntropyLoss()
-                loss = loss_fct(logits.view(-1, self.num_labels), labels.view(-1))
+                loss = loss_fct(
+                    logits.view(-1, self.num_labels), labels.view(-1))
             elif self.config.problem_type == "multi_label_classification":
                 loss_fct = BCEWithLogitsLoss()
                 loss = loss_fct(logits, labels)
