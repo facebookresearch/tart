@@ -104,10 +104,8 @@ TART-dual is an efficient bi-encoder model sharing an encoder for document and q
 The main model on the paper uses [Contriever-MS MARCO](https://huggingface.co/facebook/contriever-msmarco) pre-trained on Wikipedia 2020 dump. 
 
 ## Embeddings
-We release the pre-encoded embeddings for the BEIR datasets here:
-```
-https://homes.cs.washington.edu/~akari/embeddings_inst_dpr.zip
-```
+We release the pre-encoded embeddings for the BEIR datasets [here](https://drive.google.com/file/d/1qLqFLlvLpQ2OGHowO0Jwv_di8mJgh2be/view?usp=sharing):
+
 
 ## Evaluation
 ### BEIR
