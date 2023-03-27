@@ -211,7 +211,7 @@ python evaluate_lotte_rankings.py --k 5 --split test --data_path  ../lotte --ran
 ### Cross-task Cross-domain dataset 
 In this paper, we newly introduce cross-task cross-domain evaluation, where given an instruction and a single large-scale domain, a system needs to retrieve documents that follow instructions. 
 
-Due to legal reasons, Meta cannot host this data. The script to create cross-task cross-domain dataset is available at [cross_task_cross_domain](), and you can also download the processed cross task dataset as follows.
+Due to legal reasons, Meta cannot host this data. The script to create cross-task cross-domain dataset is available at [cross_task_cross_domain](https://github.com/facebookresearch/tart/tree/main/cross_task_cross_eval), and you can also download the processed cross task dataset as follows.
 
 ```sh
 wget https://homes.cs.washington.edu/~akari/tart/cross_task_cross_domain_final.zip
@@ -219,7 +219,7 @@ unzip https://homes.cs.washington.edu/~akari/tart/cross_task_cross_domain_final.
 ```
 
 Due to the larger corpus, we highly recommend encoding every documents beforehand. 
-Encoded documents are available at the [encoded documents](embeddings) Section. 
+Encoded documents are available at the [encoded documents](#embeddings) Section. 
 
 Then you can run evaluations on the cross-task cross-domain data as follows: 
 ```sh
