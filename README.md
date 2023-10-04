@@ -62,7 +62,7 @@ print([p_1, p_2][np.argmax(normalized_scores)]) # "The population of Japan's cap
 # 2. TART-full can identify the document that is more relevant AND follows instructions.
 in_sim = "You need to find duplicated questions in Wiki forum. Could you find a question that is similar to this question"
 q_1 = "How many people live in Tokyo?"
-features = tokenizer(['{0} [SEP] {1}'.format(in_sim, q), '{0} [SEP] {1}'.format(in_sim, q)], [p, q_1], padding=True, truncation=True, return_tensors="pt")
+features = tokenizer(['{0} [SEP] {1}'.format(in_sim, q), '{0} [SEP] {1}'.format(in_sim, q)], [p_1, q_1], padding=True, truncation=True, return_tensors="pt")
 with torch.no_grad():
     scores = model(**features).logits
     normalized_scores = [float(score[1]) for score in F.softmax(scores, dim=1)]
